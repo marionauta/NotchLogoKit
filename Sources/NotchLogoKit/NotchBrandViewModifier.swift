@@ -1,3 +1,4 @@
+#if os(iOS)
 import SwiftUI
 
 public struct NotchLogoViewModifier: ViewModifier {
@@ -5,7 +6,7 @@ public struct NotchLogoViewModifier: ViewModifier {
     let imageName: String?
     let backgroundColor: Color
 
-    init(title: LocalizedStringKey, imageName: String? = nil, backgroundColor: Color) {
+    public init(title: LocalizedStringKey, imageName: String? = nil, backgroundColor: Color) {
         self.title = title
         self.imageName = imageName
         self.backgroundColor = backgroundColor
@@ -31,7 +32,7 @@ public struct NotchLogoViewModifier: ViewModifier {
                 .background(backgroundColor)
                 .cornerRadius(25)
                 .offset(y: offset)
-                .ignoresSafeArea(.container, edges: .top)
+                .edgesIgnoringSafeArea(.top)
             }
         }
     }
@@ -47,3 +48,4 @@ public struct NotchLogoViewModifier: ViewModifier {
 
     private var notchHeight: CGFloat = safeAreaTop()
 }
+#endif

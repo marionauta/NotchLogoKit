@@ -1,3 +1,4 @@
+#if canImport(UIKit)
 import UIKit
 
 internal extension UIApplication {
@@ -16,3 +17,4 @@ internal func safeAreaTop() -> CGFloat {
     }
     return 0
 }
+#endif
