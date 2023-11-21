@@ -6,7 +6,7 @@ public extension View {
     func withNotchLogo(
         _ title: LocalizedStringKey,
         imageName: String? = nil,
-        backgroundColor: Color
+        backgroundColor: Color = .accentColor
     ) -> some View {
         #if os(iOS)
         modifier(NotchLogoViewModifier(

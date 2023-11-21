@@ -6,7 +6,7 @@ public struct NotchLogoViewModifier: ViewModifier {
     let imageName: String?
     let backgroundColor: Color
 
-    public init(title: LocalizedStringKey, imageName: String? = nil, backgroundColor: Color) {
+    public init(title: LocalizedStringKey, imageName: String? = nil, backgroundColor: Color = .accentColor) {
         self.title = title
         self.imageName = imageName
         self.backgroundColor = backgroundColor
@@ -15,25 +15,25 @@ public struct NotchLogoViewModifier: ViewModifier {
     public func body(content: Content) -> some View {
         ZStack(alignment: .top) {
             content
-            if notchHeight > 24 {
-                HStack(spacing: 2) {
-                    if let imageName {
-                        Image(imageName)
-                            .renderingMode(.template)
-                            .resizable()
-                            .frame(width: 13, height: 13, alignment: .center)
-                    }
-                    Text(title)
+            HStack(spacing: 2) {
+                if let imageName {
+                    Image(imageName)
+                        .renderingMode(.template)
+                        .resizable()
+                        .frame(width: 13, height: 13, alignment: .center)
                 }
-                .font(.system(size: 13, weight: .bold))
-                .padding(.vertical, 4)
-                .padding(.horizontal, 12)
-                .foregroundColor(.white)
-                .background(backgroundColor)
-                .cornerRadius(25)
-                .offset(y: offset)
-                .edgesIgnoringSafeArea(.top)
+                Text(title)
             }
+            .font(.system(size: 13, weight: .bold))
+            .minimumScaleFactor(0.5)
+            .foregroundColor(.white)
+            .padding(4)
+            .frame(maxWidth: 120, alignment: .center)
+            .background(backgroundColor)
+            .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
+            .offset(y: offset)
+            .edgesIgnoringSafeArea(.top)
+            .opacity(notchHeight > 24 ? 1 : 0)
         }
     }
 
