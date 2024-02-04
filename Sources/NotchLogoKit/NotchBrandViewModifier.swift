@@ -13,31 +13,34 @@ public struct NotchLogoViewModifier: ViewModifier {
     }
 
     public func body(content: Content) -> some View {
-        ZStack(alignment: .top) {
-            content
-            HStack(spacing: 2) {
-                if let imageName {
-                    Image(imageName)
-                        .renderingMode(.template)
-                        .resizable()
-                        .frame(width: 13, height: 13, alignment: .center)
+        GeometryReader { proxy in
+            ZStack(alignment: .top) {
+                content
+                let notchHeight = proxy.safeAreaInsets.top
+                HStack(spacing: 2) {
+                    if let imageName {
+                        Image(imageName)
+                            .renderingMode(.template)
+                            .resizable()
+                            .frame(width: 13, height: 13, alignment: .center)
+                    }
+                    Text(title)
                 }
-                Text(title)
+                .font(.system(size: 13, weight: .bold))
+                .minimumScaleFactor(0.5)
+                .foregroundColor(.white)
+                .padding(4)
+                .frame(maxWidth: 120, alignment: .center)
+                .background(backgroundColor)
+                .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
+                .offset(y: offset(notchHeight: notchHeight))
+                .edgesIgnoringSafeArea(.top)
+                .opacity(notchHeight > 24 ? 1 : 0)
             }
-            .font(.system(size: 13, weight: .bold))
-            .minimumScaleFactor(0.5)
-            .foregroundColor(.white)
-            .padding(4)
-            .frame(maxWidth: 120, alignment: .center)
-            .background(backgroundColor)
-            .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
-            .offset(y: offset)
-            .edgesIgnoringSafeArea(.top)
-            .opacity(notchHeight > 24 ? 1 : 0)
         }
     }
 
-    private var offset: CGFloat {
+    private func offset(notchHeight: CGFloat) -> CGFloat {
         switch notchHeight {
         case 0...47:
             return 6
@@ -45,7 +48,5 @@ public struct NotchLogoViewModifier: ViewModifier {
             return 15
         }
     }
-
-    private var notchHeight: CGFloat = safeAreaTop()
 }
 #endif
